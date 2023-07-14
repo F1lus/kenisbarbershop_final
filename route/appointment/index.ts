@@ -3,6 +3,7 @@ import { DateTime, Interval } from 'luxon';
 import { getAppointments, formatAppointments, Appointment } from './calculator';
 import { getEvents, freebusy } from '../../model/calendar'
 import { OpeninghrsController } from '../../model/db/controller/openinghrs.controller';
+import {FeaturesController} from "../../model/db/controller/features.controller";
 
 
 const isNotOverlapping = (first: Appointment, second: Appointment): boolean => {
@@ -21,12 +22,12 @@ export default Router().post('/appointments', async (req, res) => {
         return
     }
 
-    const ohr = new OpeninghrsController()
-    ohr.selectAll().then(e => {
-        console.log(e)
-    })
+    console.log(req.body)
+    //req.bodyban van service is
+    const features = new FeaturesController()
+    //TODO: Kell egy függvény, ami lekéri a szolgáltatás alapján a service timeot
 
-    let times = await getAppointments(dateTime)
+    let times = await getAppointments(dateTime, 45)
 
     const start = dateTime.toISO()
     const end = dateTime.plus({ day: 1 }).minus({ second: 1 }).toISO()

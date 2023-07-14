@@ -11,6 +11,8 @@ import appointment from './route/appointment'
 import reserve from './route/reserve'
 import { dbSource } from './model/db/source'
 import services from './route/services'
+import login from './route/login'
+import workdays from "./route/workdays";
 
 config()
 
@@ -45,6 +47,8 @@ app.use(cors())
 app.use(appointment)
 app.use(reserve)
 app.use(services)
+app.use(login)
+app.use(workdays)
 
 app.get('*', (req, res) => {
     res.sendFile(path + '/index.html')

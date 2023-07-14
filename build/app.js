@@ -11,6 +11,8 @@ var appointment_1 = require("./route/appointment");
 var reserve_1 = require("./route/reserve");
 var source_1 = require("./model/db/source");
 var services_1 = require("./route/services");
+var login_1 = require("./route/login");
+var workdays_1 = require("./route/workdays");
 (0, dotenv_1.config)();
 var app = express();
 source_1.dbSource.initialize().then(function () { return console.log('OK'); });
@@ -37,6 +39,8 @@ app.use(cors());
 app.use(appointment_1.default);
 app.use(reserve_1.default);
 app.use(services_1.default);
+app.use(login_1.default);
+app.use(workdays_1.default);
 app.get('*', function (req, res) {
     res.sendFile(path + '/index.html');
 });

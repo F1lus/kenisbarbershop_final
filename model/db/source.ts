@@ -4,6 +4,7 @@ import { DataSource } from "typeorm"
 import { config } from "dotenv"
 import { Openinghrs } from "./entity/openinghrs"
 import { Features } from "./entity/features.entity"
+import {User} from "./entity/user.entity";
 
 config()
 
@@ -14,7 +15,7 @@ export const dbSource = new DataSource({
     username: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB,
-    entities: [ Openinghrs, Features ],
+    entities: [ Openinghrs, Features, User ],
     logging: false,
     synchronize: true,
 })

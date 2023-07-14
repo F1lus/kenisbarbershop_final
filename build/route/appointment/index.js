@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (g && (g = 0, op[0] && (_ = 0)), _) try {
+        while (_) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -40,14 +40,14 @@ var express_1 = require("express");
 var luxon_1 = require("luxon");
 var calculator_1 = require("./calculator");
 var calendar_1 = require("../../model/calendar");
-var openinghrs_controller_1 = require("../../model/db/controller/openinghrs.controller");
+var features_controller_1 = require("../../model/db/controller/features.controller");
 var isNotOverlapping = function (first, second) {
     var interval = luxon_1.Interval.fromDateTimes(second.start, second.end);
     var interval2 = luxon_1.Interval.fromDateTimes(first.start, first.end);
     return interval.intersection(interval2) === null;
 };
 exports.default = (0, express_1.Router)().post('/appointments', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var dateTime, ohr, times, start, end;
+    var dateTime, features, times, start, end;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -56,11 +56,9 @@ exports.default = (0, express_1.Router)().post('/appointments', function (req, r
                     res.send({ error: 'wrong-date' });
                     return [2 /*return*/];
                 }
-                ohr = new openinghrs_controller_1.OpeninghrsController();
-                ohr.selectAll().then(function (e) {
-                    console.log(e);
-                });
-                return [4 /*yield*/, (0, calculator_1.getAppointments)(dateTime)];
+                console.log(req.body);
+                features = new features_controller_1.FeaturesController();
+                return [4 /*yield*/, (0, calculator_1.getAppointments)(dateTime, 45)];
             case 1:
                 times = _a.sent();
                 start = dateTime.toISO();

@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (g && (g = 0, op[0] && (_ = 0)), _) try {
+        while (_) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -46,7 +46,7 @@ var OpeninghrsController = /** @class */ (function () {
     OpeninghrsController.prototype.selectAll = function () {
         return this.repository.find();
     };
-    OpeninghrsController.prototype.set = function (id, day, openhr, endhr, active) {
+    OpeninghrsController.prototype.set = function (openingHrs) {
         var _this = this;
         return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
             var openinghrsToUpdate, updatedOpeninghrs, error_1;
@@ -54,16 +54,18 @@ var OpeninghrsController = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
-                        return [4 /*yield*/, this.repository.findOneById(id)];
+                        return [4 /*yield*/, this.repository.findOneById(openingHrs.id)];
                     case 1:
                         openinghrsToUpdate = _a.sent();
                         if (!openinghrsToUpdate) {
-                            throw new Error("A nyitvatart\u00E1s ezzel az ".concat(id, " -val nem tal\u00E1lhat\u00F3."));
+                            throw new Error("A nyitvatart\u00E1s ezzel az ".concat(openingHrs.id, " -val nem tal\u00E1lhat\u00F3."));
                         }
-                        openinghrsToUpdate.open = openhr;
-                        openinghrsToUpdate.close = endhr;
-                        openinghrsToUpdate.active = active;
-                        openinghrsToUpdate.day = day;
+                        openinghrsToUpdate.openhr = openingHrs.openhr;
+                        openinghrsToUpdate.closehr = openingHrs.closehr;
+                        openinghrsToUpdate.openmin = openingHrs.openmin;
+                        openinghrsToUpdate.closemin = openingHrs.closemin;
+                        openinghrsToUpdate.active = openingHrs.active;
+                        openinghrsToUpdate.day = openingHrs.day;
                         return [4 /*yield*/, this.repository.save(openinghrsToUpdate)];
                     case 2:
                         updatedOpeninghrs = _a.sent();
@@ -78,13 +80,18 @@ var OpeninghrsController = /** @class */ (function () {
             });
         }); });
     };
-    OpeninghrsController.prototype.toWeekday = function (ohr) {
-        switch (ohr.day) {
-            case "Hétfő": return 1;
-            case "Kedd": return 2;
-            case "Szerda": return 3;
-            case "Csütörtök": return 4;
-        }
+    OpeninghrsController.prototype.selectWorkingDays = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var ohr;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.repository.find()];
+                    case 1:
+                        ohr = _a.sent();
+                        return [2 /*return*/, ohr.filter(function (o) { return o.active !== 0; }).map(function (o) { return parseInt(o.day); })];
+                }
+            });
+        });
     };
     return OpeninghrsController;
 }());

@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (g && (g = 0, op[0] && (_ = 0)), _) try {
+        while (_) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -40,7 +40,7 @@ exports.formatAppointments = exports.getAppointments = exports.workCalculator = 
 var openinghrs_controller_1 = require("../../model/db/controller/openinghrs.controller");
 var workCalculator = function (start, end, serviceTime) {
     var times = [];
-    while (start.toMillis() < end.toMillis()) {
+    while (start.plus({ minutes: serviceTime }).toMillis() < end.toMillis()) {
         times.push({
             start: start,
             end: start.plus({ minutes: serviceTime })
@@ -50,29 +50,28 @@ var workCalculator = function (start, end, serviceTime) {
     return times;
 };
 exports.workCalculator = workCalculator;
-var getAppointments = function (dateTime) { return __awaiter(void 0, void 0, void 0, function () {
-    var start, end, c, i, openingHrs, openhr, endhr;
+var getAppointments = function (dateTime, serviceTime) { return __awaiter(void 0, void 0, void 0, function () {
+    var start, end, c, openingHrs, openhr, endhr, openmin, closemin;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 c = new openinghrs_controller_1.OpeninghrsController();
-                for (i = 1; i < 8; i++) {
-                    c.set(i, i.toString(), '8', '16', 1);
-                }
                 return [4 /*yield*/, c.selectAll()];
             case 1:
                 openingHrs = _a.sent();
-                openhr = openingHrs.find(function (d) { return d.day === dateTime.weekday.toString(); }).open;
-                endhr = openingHrs.find(function (d) { return d.day === dateTime.weekday.toString(); }).close;
+                openhr = openingHrs.find(function (d) { return d.day === dateTime.weekday.toString(); }).openhr;
+                endhr = openingHrs.find(function (d) { return d.day === dateTime.weekday.toString(); }).closehr;
+                openmin = openingHrs.find(function (d) { return d.day === dateTime.weekday.toString(); }).openmin;
+                closemin = openingHrs.find(function (d) { return d.day === dateTime.weekday.toString(); }).closemin;
                 if (!openhr || !endhr) {
                     start = dateTime;
                     end = dateTime;
                 }
                 else {
-                    start = dateTime.set({ hour: parseInt(openhr), minute: 0, second: 0 });
-                    end = dateTime.set({ hour: parseInt(endhr), minute: 0, second: 0 });
+                    start = dateTime.set({ hour: parseInt(openhr), minute: parseInt(openmin), second: 0 });
+                    end = dateTime.set({ hour: parseInt(endhr), minute: parseInt(closemin), second: 0 });
                 }
-                return [2 /*return*/, (0, exports.workCalculator)(start, end, 45)];
+                return [2 /*return*/, (0, exports.workCalculator)(start, end, serviceTime)];
         }
     });
 }); };

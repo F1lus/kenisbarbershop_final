@@ -35,13 +35,9 @@ export class OpeninghrsController {
         });
     }
 
-    toWeekday(ohr: Openinghrs) {
-        switch(ohr.day){
-            case "Hétfő": return 1;
-            case "Kedd": return 2;
-            case "Szerda": return 3;
-            case "Csütörtök": return 4;
-        }
+    async selectWorkingDays(){
+        const ohr = await this.repository.find()
+        return ohr.filter(o => o.active !== 0).map(o => parseInt(o.day))
     }
 
 }

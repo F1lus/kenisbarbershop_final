@@ -15,7 +15,7 @@ export const workCalculator = (start: DateTime, end: DateTime, serviceTime: numb
 
     const times: Appointment[] = []
 
-    while (start.toMillis() < end.toMillis()) {
+    while (start.plus({ minutes: serviceTime }).toMillis() < end.toMillis()) {
         times.push({
             start: start,
             end: start.plus({ minutes: serviceTime })
@@ -27,7 +27,7 @@ export const workCalculator = (start: DateTime, end: DateTime, serviceTime: numb
     return times
 }
 
-export const getAppointments = async (dateTime: DateTime) : Promise<Appointment[]> => {
+export const getAppointments = async (dateTime: DateTime, serviceTime: number) : Promise<Appointment[]> => {
     let start: DateTime, end: DateTime
     const c = new OpeninghrsController();
 
@@ -45,7 +45,7 @@ export const getAppointments = async (dateTime: DateTime) : Promise<Appointment[
         start = dateTime.set({hour: parseInt(openhr), minute: parseInt(openmin), second:0})
         end = dateTime.set({hour: parseInt(endhr), minute: parseInt(closemin), second:0})
     }
-    return workCalculator(start, end, 45)
+    return workCalculator(start, end, serviceTime)
 }
 
 export const formatAppointments = (appointments : Appointment[]) : TimeFormat[] => {
