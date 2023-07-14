@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { getEvents, insertEvent } from '../../model/Calendar'
+import { getEvents, insertEvent } from '../../model/calendar'
 import { DateTime } from 'luxon'
 
 type ServerInterval = {

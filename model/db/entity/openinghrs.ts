@@ -9,11 +9,22 @@ export class Openinghrs {
     @Column()
     day: string
 
-    //Nyitás
+    //Nyitás óra
     @Column()
-    open: string
+    openhr: string
 
-    //Zárás
+    //Zárás óra
     @Column()
-    close: string 
+    closehr: string 
+
+    //Nyitás perc
+    @Column()
+    openmin: string
+
+    //Zárás perc
+    @Column()
+    closemin: string 
+    //Aktív
+    @Column()
+    active: number
 }

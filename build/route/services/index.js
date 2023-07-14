@@ -15,6 +15,6 @@ exports.default = (0, express_1.Router)().post('/api/services', function (req, r
         res.status(200).send({ features: response });
     })
         .catch(function (_) {
-        res.sendStatus(404);
+        res.status(404).send({ message: "no-content" });
     });
 });

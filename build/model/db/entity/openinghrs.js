@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Openinghrs = void 0;
 var typeorm_1 = require("typeorm");
-var Openinghrs = /** @class */ (function () {
+var Openinghrs = exports.Openinghrs = /** @class */ (function () {
     function Openinghrs() {
     }
     __decorate([
@@ -30,9 +30,12 @@ var Openinghrs = /** @class */ (function () {
         (0, typeorm_1.Column)(),
         __metadata("design:type", String)
     ], Openinghrs.prototype, "close", void 0);
+    __decorate([
+        (0, typeorm_1.Column)(),
+        __metadata("design:type", Number)
+    ], Openinghrs.prototype, "active", void 0);
     Openinghrs = __decorate([
         (0, typeorm_1.Entity)()
     ], Openinghrs);
     return Openinghrs;
 }());
-exports.Openinghrs = Openinghrs;

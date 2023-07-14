@@ -12,7 +12,7 @@ const isNotOverlapping = (first: Appointment, second: Appointment): boolean => {
     return interval.intersection(interval2) === null
 }
 
-export default Router().post('/appointments', (req, res) => {
+export default Router().post('/appointments', async (req, res) => {
 
     const dateTime = DateTime.fromISO(req.body.workday).setLocale('hu').startOf('day').setZone('Europe/Budapest')
 
@@ -26,7 +26,7 @@ export default Router().post('/appointments', (req, res) => {
         console.log(e)
     })
 
-    let times = getAppointments(dateTime)
+    let times = await getAppointments(dateTime)
 
     const start = dateTime.toISO()
     const end = dateTime.plus({ day: 1 }).minus({ second: 1 }).toISO()

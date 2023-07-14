@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
-var Calendar_1 = require("../../model/Calendar");
+var calendar_1 = require("../../model/calendar");
 var luxon_1 = require("luxon");
 var getInterval = function (time, date) {
     var jsonTime = JSON.parse(time);
@@ -42,7 +42,7 @@ exports.default = (0, express_1.Router)().post('/reserve', function (req, res) {
         return;
     }
     var _a = getInterval(request.time, resDate), start = _a.start, end = _a.end, jsonTime = _a.jsonTime;
-    (0, Calendar_1.getEvents)(start, end, false)
+    (0, calendar_1.getEvents)(start, end, false)
         .then(function (events) {
         if (events && events.length > 0) {
             return null;
@@ -59,7 +59,7 @@ exports.default = (0, express_1.Router)().post('/reserve', function (req, res) {
                 timeZone: 'Europe/Budapest'
             }
         };
-        return (0, Calendar_1.insertEvent)(event);
+        return (0, calendar_1.insertEvent)(event);
     })
         .then(function (result) {
         if (!result) {

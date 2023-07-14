@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Features = void 0;
 var typeorm_1 = require("typeorm");
-var Features = /** @class */ (function () {
+var Features = exports.Features = /** @class */ (function () {
     function Features() {
     }
     __decorate([
@@ -35,4 +35,3 @@ var Features = /** @class */ (function () {
     ], Features);
     return Features;
 }());
-exports.Features = Features;

@@ -1,4 +1,5 @@
 import { DateTime } from "luxon"
+import { OpeninghrsController } from "../../model/db/controller/openinghrs.controller"
 
 export type Appointment = {
     start: DateTime,
@@ -26,32 +27,24 @@ export const workCalculator = (start: DateTime, end: DateTime, serviceTime: numb
     return times
 }
 
-export const getAppointments = (dateTime: DateTime) : Appointment[] => {
+export const getAppointments = async (dateTime: DateTime) : Promise<Appointment[]> => {
     let start: DateTime, end: DateTime
+    const c = new OpeninghrsController();
 
-    switch (dateTime.weekday) {
-        case 1:
-            start = dateTime.set({ hour: 12, minute: 0, second: 0 })
-            end = dateTime.set({ hour: 20, minute: 0, second: 0 })
-            break
-        case 2:
-        case 3:
-            start = dateTime.set({ hour: 10, minute: 0, second: 0 })
-            end = dateTime.set({ hour: 18, minute: 0, second: 0 })
-            break
-        case 4:
-            start = dateTime.set({ hour: 8, minute: 0, second: 0 })
-            end = dateTime.set({ hour: 16, minute: 0, second: 0 })
-            break
-        case 5:
-            start = dateTime.set({ hour: 9, minute: 0, second: 0 })
-            end = dateTime.set({ hour: 14, minute: 0, second: 0 })
-            break
-        default:
-            start = dateTime
-            end = dateTime
+    const openingHrs = await c.selectAll();
+    const openhr = openingHrs.find(d => d.day === dateTime.weekday.toString()).openhr;
+    const endhr = openingHrs.find(d => d.day === dateTime.weekday.toString()).closehr;
+    const openmin = openingHrs.find(d => d.day === dateTime.weekday.toString()).openmin;
+    const closemin = openingHrs.find(d => d.day === dateTime.weekday.toString()).closemin;
+
+    if(!openhr || !endhr){
+        start = dateTime
+        end = dateTime
     }
-
+    else{
+        start = dateTime.set({hour: parseInt(openhr), minute: parseInt(openmin), second:0})
+        end = dateTime.set({hour: parseInt(endhr), minute: parseInt(closemin), second:0})
+    }
     return workCalculator(start, end, 45)
 }
 
