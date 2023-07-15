@@ -13,6 +13,8 @@ import { dbSource } from './model/db/source'
 import services from './route/services'
 import login from './route/login'
 import workdays from "./route/workdays";
+import validate from "./route/validate";
+import admin from "./route/admin";
 
 config()
 
@@ -49,6 +51,8 @@ app.use(reserve)
 app.use(services)
 app.use(login)
 app.use(workdays)
+app.use(validate)
+app.use(admin)
 
 app.get('*', (req, res) => {
     res.sendFile(path + '/index.html')

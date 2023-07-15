@@ -78,4 +78,10 @@ export class FeaturesController {
                 .catch(_ => reject("ERROR"))
         })
     }
+
+    async getServices() {
+        const services = await this.repository.find()
+        
+        return services.map(service => service.type)
+    }
 }
