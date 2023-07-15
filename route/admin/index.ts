@@ -1,7 +1,6 @@
 import {Router} from "express";
 import {OpeninghrsController} from "../../model/db/controller/openinghrs.controller";
 import {FeaturesController} from "../../model/db/controller/features.controller";
-import { features } from "process";
 
 const admin = Router()
 
@@ -24,21 +23,15 @@ admin.post('/getAdmin', (req, res) => {
 })
 
 admin.post('/deleteService', (req, res) => {
-    const features = new FeaturesController()
-    features.delete(req.body.feature.id);
     console.log(req.body)
+    
+    //TODO
 })
 
-admin.post('/saveForm', async (req, res) => {
-    const ohr = new OpeninghrsController()
-    const features = new FeaturesController()
-    const actualFeatures = await features.getAll();
-    const id = actualFeatures.find(req.body.id);
-
-    if(id != null) features.update(req.body.feature.id, req.body.feature);
-    else features.insert(req.body.feature.price,req.body.feature.time,req.body.feature.type);
-    ohr.set(req.body.openinghrs);
+admin.post('/saveForm', (req, res) => {
     console.log(req.body)
+    
+    //TODO
 })
 
 export default admin
