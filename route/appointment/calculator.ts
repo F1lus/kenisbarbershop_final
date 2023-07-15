@@ -15,7 +15,7 @@ export const workCalculator = async (start: DateTime, end: DateTime, serviceTime
 
     const times: Appointment[] = []
 
-    while (start.plus({ minutes: serviceTime}).toMillis() < end.toMillis()) {
+    while (start.plus({ minutes: serviceTime}).toMillis() <= end.toMillis()) {
         times.push({
             start: start,
             end: start.plus({ minutes: serviceTime })

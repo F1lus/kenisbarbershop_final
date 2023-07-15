@@ -42,7 +42,7 @@ var workCalculator = function (start, end, serviceTime) { return __awaiter(void 
     var times;
     return __generator(this, function (_a) {
         times = [];
-        while (start.plus({ minutes: serviceTime }).toMillis() < end.toMillis()) {
+        while (start.plus({ minutes: serviceTime }).toMillis() <= end.toMillis()) {
             times.push({
                 start: start,
                 end: start.plus({ minutes: serviceTime })
