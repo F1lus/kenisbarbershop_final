@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (g && (g = 0, op[0] && (_ = 0)), _) try {
+        while (_) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -68,6 +68,7 @@ admin.post('/getAdmin', function (req, res) {
 admin.post('/deleteService', function (req, res) {
     var features = new features_controller_1.FeaturesController();
     features.delete(req.body.id);
+    res.status(200).send();
 });
 admin.post('/saveForm', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var ohr, features, services, days;
@@ -79,12 +80,13 @@ admin.post('/saveForm', function (req, res) { return __awaiter(void 0, void 0, v
         services.forEach(function (element) {
             if (element.id != null)
                 features.update(element.id, element);
-            else
+            else if (element.type.length !== 0)
                 features.insert(element.price, element.time, element.type);
         });
         days.forEach(function (element) {
             ohr.set(element);
         });
+        res.status(200).send();
         return [2 /*return*/];
     });
 }); });

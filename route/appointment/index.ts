@@ -22,8 +22,6 @@ export default Router().post('/appointments', async (req, res) => {
         return
     }
 
-    console.log(req.body)
-
     const featuresController = new FeaturesController()
     const feature = (await featuresController.getAll()).find(x=>x.type == req.body.service);
 

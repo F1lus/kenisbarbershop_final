@@ -27,6 +27,8 @@ admin.post('/getAdmin', (req, res) => {
 admin.post('/deleteService', (req, res) => {
     const features = new FeaturesController()
     features.delete(req.body.id);
+
+    res.status(200).send()
 })
 
 admin.post('/saveForm', async (req, res) => {
@@ -36,12 +38,16 @@ admin.post('/saveForm', async (req, res) => {
     const days = req.body.days;
 
     services.forEach(element => {
-        if(element.id != null)features.update(element.id, element);
-        else features.insert(element.price,element.time,element.type);
+        if(element.id != null)
+            features.update(element.id, element);
+        else if(element.type.length !== 0)
+            features.insert(element.price,element.time,element.type);
     });
     days.forEach(element => {
        ohr.set(element);
     });
+
+    res.status(200).send()
 })
 
 export default admin
