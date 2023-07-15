@@ -1,5 +1,6 @@
 import { DateTime } from "luxon"
 import { OpeninghrsController } from "../../model/db/controller/openinghrs.controller"
+import { FeaturesController } from "../../model/db/controller/features.controller"
 
 export type Appointment = {
     start: DateTime,
@@ -11,17 +12,19 @@ export type TimeFormat = {
     end: string,
 }
 
-export const workCalculator = (start: DateTime, end: DateTime, serviceTime: number): Appointment[] => {
+export const workCalculator = async (start: DateTime, end: DateTime, featureid: number): Promise<Appointment[]> => {
 
     const times: Appointment[] = []
+    const featuresController = new FeaturesController();
+    const feature = (await featuresController.getAll()).find(x=>x.id == featureid);
 
-    while (start.plus({ minutes: serviceTime }).toMillis() < end.toMillis()) {
+    while (start.plus({ minutes: feature.time}).toMillis() < end.toMillis()) {
         times.push({
             start: start,
-            end: start.plus({ minutes: serviceTime })
+            end: start.plus({ minutes: feature.time })
         })
 
-        start = start.plus({ minutes: serviceTime })
+        start = start.plus({ minutes: feature.time })
     }
 
     return times
