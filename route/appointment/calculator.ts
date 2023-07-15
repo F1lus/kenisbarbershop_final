@@ -1,6 +1,5 @@
 import { DateTime } from "luxon"
 import { OpeninghrsController } from "../../model/db/controller/openinghrs.controller"
-import { FeaturesController } from "../../model/db/controller/features.controller"
 
 export type Appointment = {
     start: DateTime,
