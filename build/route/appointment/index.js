@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -47,7 +47,7 @@ var isNotOverlapping = function (first, second) {
     return interval.intersection(interval2) === null;
 };
 exports.default = (0, express_1.Router)().post('/appointments', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var dateTime, features, times, start, end;
+    var dateTime, featuresController, feature, times, start, end;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -57,9 +57,13 @@ exports.default = (0, express_1.Router)().post('/appointments', function (req, r
                     return [2 /*return*/];
                 }
                 console.log(req.body);
-                features = new features_controller_1.FeaturesController();
-                return [4 /*yield*/, (0, calculator_1.getAppointments)(dateTime, 45)];
+                featuresController = new features_controller_1.FeaturesController();
+                console.log(req.body.service.type);
+                return [4 /*yield*/, featuresController.getAll()];
             case 1:
+                feature = (_a.sent()).find(function (x) { return x.type == req.body.service; });
+                return [4 /*yield*/, (0, calculator_1.getAppointments)(dateTime, feature.time)];
+            case 2:
                 times = _a.sent();
                 start = dateTime.toISO();
                 end = dateTime.plus({ day: 1 }).minus({ second: 1 }).toISO();

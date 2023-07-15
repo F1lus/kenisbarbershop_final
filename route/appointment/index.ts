@@ -23,11 +23,11 @@ export default Router().post('/appointments', async (req, res) => {
     }
 
     console.log(req.body)
-    //req.bodyban van service is
-    const features = new FeaturesController()
-    //TODO: Kell egy függvény, ami lekéri a szolgáltatás alapján a service timeot
 
-    let times = await getAppointments(dateTime, 45)
+    const featuresController = new FeaturesController()
+    const feature = (await featuresController.getAll()).find(x=>x.type == req.body.service);
+
+    let times = await getAppointments(dateTime, feature.time)
 
     const start = dateTime.toISO()
     const end = dateTime.plus({ day: 1 }).minus({ second: 1 }).toISO()

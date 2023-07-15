@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -38,17 +38,20 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.formatAppointments = exports.getAppointments = exports.workCalculator = void 0;
 var openinghrs_controller_1 = require("../../model/db/controller/openinghrs.controller");
-var workCalculator = function (start, end, serviceTime) {
-    var times = [];
-    while (start.plus({ minutes: serviceTime }).toMillis() < end.toMillis()) {
-        times.push({
-            start: start,
-            end: start.plus({ minutes: serviceTime })
-        });
-        start = start.plus({ minutes: serviceTime });
-    }
-    return times;
-};
+var workCalculator = function (start, end, serviceTime) { return __awaiter(void 0, void 0, void 0, function () {
+    var times;
+    return __generator(this, function (_a) {
+        times = [];
+        while (start.plus({ minutes: serviceTime }).toMillis() < end.toMillis()) {
+            times.push({
+                start: start,
+                end: start.plus({ minutes: serviceTime })
+            });
+            start = start.plus({ minutes: serviceTime });
+        }
+        return [2 /*return*/, times];
+    });
+}); };
 exports.workCalculator = workCalculator;
 var getAppointments = function (dateTime, serviceTime) { return __awaiter(void 0, void 0, void 0, function () {
     var start, end, c, openingHrs, openhr, endhr, openmin, closemin;

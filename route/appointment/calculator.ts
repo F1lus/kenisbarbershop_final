@@ -12,25 +12,23 @@ export type TimeFormat = {
     end: string,
 }
 
-export const workCalculator = async (start: DateTime, end: DateTime, featureid: number): Promise<Appointment[]> => {
+export const workCalculator = async (start: DateTime, end: DateTime, serviceTime:number): Promise<Appointment[]> => {
 
     const times: Appointment[] = []
-    const featuresController = new FeaturesController();
-    const feature = (await featuresController.getAll()).find(x=>x.id == featureid);
 
-    while (start.plus({ minutes: feature.time}).toMillis() < end.toMillis()) {
+    while (start.plus({ minutes: serviceTime}).toMillis() < end.toMillis()) {
         times.push({
             start: start,
-            end: start.plus({ minutes: feature.time })
+            end: start.plus({ minutes: serviceTime })
         })
 
-        start = start.plus({ minutes: feature.time })
+        start = start.plus({ minutes: serviceTime })
     }
 
     return times
 }
 
-export const getAppointments = async (dateTime: DateTime, serviceTime: number) : Promise<Appointment[]> => {
+export const getAppointments = async (dateTime: DateTime, serviceTime:number) : Promise<Appointment[]> => {
     let start: DateTime, end: DateTime
     const c = new OpeninghrsController();
 
